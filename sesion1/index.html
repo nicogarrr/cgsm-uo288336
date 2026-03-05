@@ -3,11 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic template for the CGSM labs</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>PL1 - Introducción a WebGL (I)</title>
+    <link rel="stylesheet" type="text/css" href="report.css">
 </head>
 <body>
-    <!-- Content of the page -->
-    <script type="module" defer src="dist/file.js"></script>
+    <main>
+        <section>
+            <h1>Memoria de la Práctica 1 (CGSM)</h1>
+            <p class="meta">Proyecto: <code>sesion1</code></p>
+            <p class="meta">Alumno: <strong>Nicolás Iglesias Garcia</strong></p>
+            <p class="meta">UO: <strong>UO288336</strong></p>
+            <p class="meta">PL1: <strong>Introducción a WebGL (I)</strong></p>
+            <p class="meta">Área de Arquitectura y Tecnología de Computadores</p>
+            <p>
+                En esta sesión se configuró un entorno WebGL con three.js usando webpack y se
+                desarrollaron seis escenas progresivas para trabajar detección de WebGL, creación
+                de geometrías, materiales, luces y redimensionado de la vista.
+            </p>
+        </section>
+
+        <section>
+            <h2>Resumen de tareas y resultados</h2>
+            <ul>
+                <li>Configuración del proyecto con <code>npm</code>, <code>webpack</code>, <code>webpack-dev-server</code> y scripts de trabajo.</li>
+                <li>Comprobación de soporte WebGL2 en <code>prac1-1</code>.</li>
+                <li>Escena base con cubo y cámara en perspectiva en <code>prac1-2</code>.</li>
+                <li>Visualización 3D mejorada con rotación del cubo en <code>prac1-3</code>.</li>
+                <li>Escena con varias geometrías (cubo, cilindro, esfera) en <code>prac1-4</code>.</li>
+                <li>Añadida geometría personalizada (casa) con <code>BufferGeometry</code> en <code>prac1-5</code>.</li>
+                <li>Combinación de materiales Basic/Lambert/Phong y luces en <code>prac1-6</code>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Dificultades y soluciones</h2>
+            <ul>
+                <li>Me costó colocar las ventanas y la puerta de la casa exactamente como lo pidió el profesor.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Respuestas concisas a cuestiones del guion</h2>
+            <ul>
+                <li>En <code>prac1-2</code> el cubo parece 2D porque la cámara mira frontalmente a una cara.</li>
+                <li>En <code>prac1-3</code> la rotación en X e Y permite apreciar correctamente la profundidad.</li>
+                <li><code>MeshBasicMaterial</code> no requiere luz; <code>MeshLambertMaterial</code> y <code>MeshPhongMaterial</code> sí.</li>
+                <li>La diferencia visual principal de Phong frente a Lambert es el brillo especular.</li>
+                <li>Las transformaciones sobre un objeto padre afectan a todos sus hijos por jerarquía.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Escenas generadas</h2>
+            <div class="scene-grid">
+                <article class="scene-card">
+                    <h3>prac1-1: soporte WebGL2</h3>
+                    <iframe class="scene-frame" src="prac1-1.html" title="Escena prac1-1"></iframe>
+                </article>
+                <article class="scene-card">
+                    <h3>prac1-2: cubo básico</h3>
+                    <iframe class="scene-frame" src="prac1-2.html" title="Escena prac1-2"></iframe>
+                </article>
+                <article class="scene-card">
+                    <h3>prac1-3: cubo rotado + resize</h3>
+                    <iframe class="scene-frame" src="prac1-3.html" title="Escena prac1-3"></iframe>
+                </article>
+                <article class="scene-card">
+                    <h3>prac1-4: cubo, cilindro y esfera</h3>
+                    <iframe class="scene-frame" src="prac1-4.html" title="Escena prac1-4"></iframe>
+                </article>
+                <article class="scene-card">
+                    <h3>prac1-5: geometría personalizada (casa)</h3>
+                    <iframe class="scene-frame" src="prac1-5.html" title="Escena prac1-5"></iframe>
+                </article>
+                <article class="scene-card">
+                    <h3>prac1-6: materiales y luces</h3>
+                    <iframe class="scene-frame" src="prac1-6.html" title="Escena prac1-6"></iframe>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <h2>Capturas de pantalla</h2>
+            <p>
+                Se han priorizado las escenas embebidas en directo. Si se solicitan capturas fijas
+                adicionales, se pueden incluir en una carpeta de recursos y referenciarlas aquí.
+            </p>
+        </section>
+    </main>
 </body>
 </html>
