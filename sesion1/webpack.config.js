@@ -1,6 +1,7 @@
 module.exports = {
     mode: "development",
     entry: {
+        "prac1-1": "./src/prac1-1.js"
     },
     output: {
         filename: '[name].js'
