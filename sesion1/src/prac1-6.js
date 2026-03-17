@@ -45,41 +45,53 @@ const sphere = new THREE.Mesh(
 sphere.position.set(90, 0, 0);
 sphere.rotation.set(Math.PI / 8, Math.PI / 8, 0);
 
-const houseShape = new THREE.Shape();
-houseShape.moveTo(-50, -60);
-houseShape.lineTo(-10, -60);
-houseShape.lineTo(-10, -28);
-houseShape.lineTo(10, -28);
-houseShape.lineTo(10, -60);
-houseShape.lineTo(50, -60);
-houseShape.lineTo(50, 20);
-houseShape.lineTo(0, 70);
-houseShape.lineTo(-50, 20);
-houseShape.closePath();
-
-const leftWindowHole = new THREE.Path();
-leftWindowHole.moveTo(-30, -14);
-leftWindowHole.lineTo(-10, -14);
-leftWindowHole.lineTo(-10, 6);
-leftWindowHole.lineTo(-30, 6);
-leftWindowHole.closePath();
-
-const rightWindowHole = new THREE.Path();
-rightWindowHole.moveTo(10, -14);
-rightWindowHole.lineTo(30, -14);
-rightWindowHole.lineTo(30, 6);
-rightWindowHole.lineTo(10, 6);
-rightWindowHole.closePath();
-
-houseShape.holes.push(leftWindowHole, rightWindowHole);
-
-const houseGeometry = new THREE.ShapeGeometry(houseShape);
+const houseGeometry = new THREE.BufferGeometry();
+const vertices = new Float32Array([
+    -50, -60, 0,
+    50, -60, 0,
+    50, 20, 0,
+    0, 70, 0,
+    -50, 20, 0
+]);
+const indices = [
+    0, 1, 2,
+    0, 2, 4,
+    4, 2, 3
+];
+houseGeometry.setIndex(indices);
+houseGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+houseGeometry.computeVertexNormals();
 
 const house = new THREE.Mesh(
     houseGeometry,
     new THREE.MeshBasicMaterial({ color: 0xffdd55, side: THREE.DoubleSide })
 );
 house.position.set(270, 0, 0);
+
+const windowMaterial = new THREE.MeshBasicMaterial({ color: 0x88ccff });
+const doorMaterial = new THREE.MeshBasicMaterial({ color: 0x6b3e26 });
+
+const leftWindow = new THREE.Mesh(
+    new THREE.PlaneGeometry(16, 16),
+    windowMaterial
+);
+leftWindow.position.set(-20, -5, 0.5);
+
+const rightWindow = new THREE.Mesh(
+    new THREE.PlaneGeometry(16, 16),
+    windowMaterial
+);
+rightWindow.position.set(20, -5, 0.5);
+
+const door = new THREE.Mesh(
+    new THREE.PlaneGeometry(20, 30),
+    doorMaterial
+);
+door.position.set(0, -35, 0.5);
+
+house.add(leftWindow);
+house.add(rightWindow);
+house.add(door);
 
 const ambientLight = new THREE.AmbientLight(0x404040, 1.2);
 scene.add(ambientLight);
