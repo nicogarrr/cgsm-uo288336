@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Informe de prácticas de CGSM (2015-2016)</title>
+        <link rel="stylesheet" type="text/css" href="report.css">
+    </head>
+    <body>
+        <!-- Información general -->
+        <div id="head">
+            <table id="general">
+                <tr>
+                    <th class="header">Nombre:</th>
+                    <td>Nicolás Iglesias Garcia</td>
+                </tr>
+                <tr>
+                    <th>UO:</th>
+                    <td>UO288336</td>
+                </tr>
+                <tr>
+                    <th>Práctica:</th>
+                    <td>2 - Introducción a WebGL (II)</td>
+                </tr>
+            </table>
+        </div>
+        <div id="content">
+            <h1>Memoria</h1>
+
+            <h2>Descripción de la práctica</h2>
+            <p>
+                En esta sesión se amplió el trabajo con WebGL y three.js para construir el sistema Tierra-Luna
+                incorporando texturas, animación, jerarquías de objetos y shaders. También se añadió una escena
+                de carga de modelo externo en formato Collada.
+            </p>
+
+            <h2>Resumen de tareas y resultados</h2>
+            <ul>
+                <li>Configuración de <span class="code">sesion2</span> como proyecto independiente con webpack y scripts de trabajo.</li>
+                <li>Creación de escenas <span class="code">prac2-1</span> a <span class="code">prac2-9</span> con sus entradas en webpack.</li>
+                <li>Uso de texturas para cubo, Tierra, atmósfera, Luna y Sol.</li>
+                <li>Implementación de animación temporal con <span class="code">THREE.Clock</span> (rotación terrestre y órbita lunar).</li>
+                <li>Uso de shaders GLSL con <span class="code">ShaderMaterial</span> y uniforms para el Sol.</li>
+                <li>Carga de modelo Collada en la escena final.</li>
+            </ul>
+
+            <h2>Ejercicio 1</h2>
+            <p><strong>Respuesta concisa:</strong> se aplica una textura al cubo y se fuerza un nuevo render en el callback de carga para evitar que aparezca negro.</p>
+            <iframe class="container" src="prac2-1.html" title="Escena prac2-1"></iframe>
+
+            <h2>Ejercicio 2</h2>
+            <p><strong>Respuesta concisa:</strong> la Tierra usa <span class="code">MeshPhongMaterial</span> y una <span class="code">PointLight</span> lateral para simular iluminación solar.</p>
+            <iframe class="container" src="prac2-2.html" title="Escena prac2-2"></iframe>
+
+            <h2>Ejercicio 3</h2>
+            <p><strong>Respuesta concisa:</strong> la atmósfera se representa con una esfera mayor y <span class="code">MeshLambertMaterial</span> transparente para mostrar solo nubes.</p>
+            <iframe class="container" src="prac2-3.html" title="Escena prac2-3"></iframe>
+
+            <h2>Ejercicio 4</h2>
+            <p><strong>Respuesta concisa:</strong> la inclinación axial terrestre se implementa con <span class="code">Object3D</span> y rotación en Z de 0.36 radianes.</p>
+            <iframe class="container" src="prac2-4.html" title="Escena prac2-4"></iframe>
+
+            <h2>Ejercicio 5</h2>
+            <p><strong>Respuesta concisa:</strong> la Luna se añadió a escala (0.27 Tierras), con bloqueo mareal y grupo orbital inclinado.</p>
+            <iframe class="container" src="prac2-5.html" title="Escena prac2-5"></iframe>
+
+            <h2>Ejercicio 6</h2>
+            <p><strong>Respuesta concisa:</strong> se anima la rotación de la Tierra (24 s por vuelta) y de la atmósfera a velocidad ligeramente distinta.</p>
+            <iframe class="container" src="prac2-6.html" title="Escena prac2-6"></iframe>
+
+            <h2>Ejercicio 7</h2>
+            <p><strong>Respuesta concisa:</strong> la órbita lunar se anima con periodo de 28 días modelados en segundos.</p>
+            <iframe class="container" src="prac2-7.html" title="Escena prac2-7"></iframe>
+
+            <h2>Ejercicio 8</h2>
+            <p><strong>Respuesta concisa:</strong> el Sol se implementa con <span class="code">ShaderMaterial</span> y shaders GLSL de vértices/fragmentos con uniforms temporales.</p>
+            <iframe class="container" src="prac2-8.html" title="Escena prac2-8"></iframe>
+
+            <h2>Ejercicio 9</h2>
+            <p><strong>Respuesta concisa:</strong> se carga un modelo Collada externo desde <span class="code">models/iss.dae</span> usando <span class="code">ColladaLoader</span>.</p>
+            <iframe class="container" src="prac2-9.html" title="Escena prac2-9"></iframe>
+
+            <h2>Dificultades encontradas</h2>
+            <ul>
+                <li>Sincronizar la carga asíncrona de texturas y mantener renderizado correcto en todas las escenas.</li>
+                <li>Ajustar jerarquías de objetos para combinar inclinación terrestre, rotaciones locales y órbita lunar.</li>
+                <li>Configurar el pipeline de shaders con webpack y usar uniforms para animación temporal del Sol.</li>
+            </ul>
+
+            <h2>Capturas de pantalla</h2>
+            <p>
+                Se han priorizado las escenas embebidas en vivo de cada ejercicio. No se han añadido capturas estáticas adicionales.
+            </p>
+        </div>
+    </body>
+</html>
