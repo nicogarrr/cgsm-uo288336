@@ -1,0 +1,31 @@
+table#general {
+    font-family: "Helvetica Neue", Helvetica, sans-serif
+}
+
+th {
+    background: SteelBlue;
+    color: white;
+}
+
+th,
+td {
+    padding: 5px 10px;
+}
+
+tr {
+    background: WhiteSmoke;
+}
+
+iframe.container {
+    min-height: 500px;
+    width: 100%;
+    background-color: black;
+    border-top: #c00 1px dotted;
+    border-right: #c00 2px dotted;
+    border-left: #c00 2px dotted;
+    border-bottom: #c00 4px dotted;
+}
+
+.code {
+    font-style: italic;
+}

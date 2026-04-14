@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGSM - Practica 3.2</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        #overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 70%);
+            z-index: 1000;
+            color: #f8fafc;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 24px;
+        }
+
+        #startButton {
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #0f172a;
+            background-color: #22d3ee;
+        }
+
+        #startButton:hover {
+            background-color: #67e8f9;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Practica 3.2 - Textura de video</h1>
+        <p>Pulsa para iniciar la escena y reproducir el video como textura.</p>
+        <button id="startButton" type="button">Iniciar escena</button>
+    </div>
+
+    <video id="video" class="videot" style="display:none" autoplay loop muted playsinline crossorigin="anonymous">
+        <source src="videos/sintel.mp4" type="video/mp4">
+    </video>
+
+    <script defer src="dist/prac3-2.js"></script>
+</body>
+</html>

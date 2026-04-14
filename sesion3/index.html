@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Informe de practicas de CGSM - Sesion 3</title>
+        <link rel="stylesheet" type="text/css" href="report.css">
+    </head>
+    <body>
+        <div id="head">
+            <table id="general">
+                <tr>
+                    <th class="header">Nombre:</th>
+                    <td>Nicolas Iglesias Garcia</td>
+                </tr>
+                <tr>
+                    <th>UO:</th>
+                    <td>UO288336</td>
+                </tr>
+                <tr>
+                    <th>Practica:</th>
+                    <td>3 - WebGL avanzado (I)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="content">
+            <h1>Memoria</h1>
+
+            <h2>Resumen de tareas realizadas y resultados</h2>
+            <p>
+                En esta sesion se desarrollaron las cuatro escenas pedidas en el guion utilizando
+                <span class="code">three.js</span>. Se trabajo con mapas topologicos para simular relieve,
+                texturas de video, paneles de control para modificar parametros de la escena,
+                visualizacion del framerate y desplazamiento de camara en primera persona.
+            </p>
+            <ul>
+                <li><span class="code">prac3-1</span>: comparativa entre un cubo con textura simple y otro con <span class="code">bumpMap</span>.</li>
+                <li><span class="code">prac3-2</span>: plano con textura de video, rotacion continua y arranque tras pulsar un boton overlay.</li>
+                <li><span class="code">prac3-3</span>: escena anterior ampliada con <span class="code">lil-gui</span> para variar <span class="code">bumpScale</span> y con <span class="code">stats.js</span> para mostrar FPS.</li>
+                <li><span class="code">prac3-4</span>: escenario first-person con <span class="code">GridHelper</span>, dos cubos con una cara especial, luz direccional, luz hemisferica y <span class="code">FirstPersonControls</span>.</li>
+            </ul>
+
+            <h2>Dificultades surgidas y solucion</h2>
+            <ul>
+                <li>Las texturas y el video no funcionan de forma fiable si se abre la practica directamente con <span class="code">file://</span>. Se soluciono ejecutando el proyecto con <span class="code">webpack-dev-server</span>.</li>
+                <li>El relieve del mapa topologico se apreciaba poco sin una iluminacion adecuada. Se ajustaron luces y valores de <span class="code">bumpScale</span> para hacer visible la diferencia.</li>
+                <li>La reproduccion automatica del video quedaba bloqueada por el navegador. Se anadio un overlay con boton para garantizar la interaccion del usuario antes de llamar a <span class="code">video.play()</span>.</li>
+                <li>El control de framerate no mostraba datos utiles hasta actualizarlo en cada frame. Se corrigio invocando <span class="code">stats.update()</span> dentro del bucle de animacion.</li>
+            </ul>
+
+            <h2>Respuestas concisas al guion</h2>
+            <ul>
+                <li>Si se aprecia el efecto de <span class="code">bumpScale</span>: el cubo con mapa topologico da sensacion de rugosidad y relieve aunque su geometria siga siendo la de un cubo normal.</li>
+                <li>La textura de video se genera copiando cada frame del elemento <span class="code">video</span> a un <span class="code">canvas</span> intermedio y marcando despues <span class="code">texture.needsUpdate = true</span>.</li>
+                <li>El control de <span class="code">lil-gui</span> modifica el valor de una propiedad JavaScript, pero solo afecta a la escena cuando ese valor se enlaza con el material en el ciclo de renderizado.</li>
+                <li>El framerate mostrado por <span class="code">stats.js</span> solo es correcto si el panel se actualiza continuamente dentro de la animacion.</li>
+                <li>Los controles de primera persona necesitan el tiempo transcurrido entre frames, obtenido con <span class="code">clock.getDelta()</span>, para mover la camara de forma estable.</li>
+            </ul>
+
+            <h2>Escena 3-1: Texturas avanzadas</h2>
+            <p>
+                Se renderizan dos cubos con la misma geometria. El cubo izquierdo solo usa la
+                textura base, mientras que el derecho combina textura base y mapa topologico para
+                simular rugosidad en la superficie.
+            </p>
+            <iframe class="container" src="prac3-1.html" title="Escena prac3-1"></iframe>
+
+            <h2>Escena 3-2: Textura de video</h2>
+            <p>
+                El plano utiliza el video <span class="code">sintel.mp4</span> como textura. La escena se
+                crea tras pulsar el boton del overlay y el plano rota continuamente para apreciar el
+                cambio dinamico de la textura.
+            </p>
+            <iframe class="container" src="prac3-2.html" title="Escena prac3-2"></iframe>
+
+            <h2>Escena 3-3: Control de variables y framerate</h2>
+            <p>
+                Sobre la comparativa de cubos se incorpora un panel <span class="code">lil-gui</span> para
+                modificar <span class="code">bumpScale</span> en tiempo real y un panel <span class="code">stats.js</span>
+                que muestra el numero de FPS durante la animacion.
+            </p>
+            <iframe class="container" src="prac3-3.html" title="Escena prac3-3"></iframe>
+
+            <h2>Escena 3-4: Movimiento de camara</h2>
+            <p>
+                La ultima escena simula un recorrido en primera persona sobre una rejilla. Los dos
+                cubos usan materiales por cara, de manera que una cara de cada cubo es distinta y
+                ambas quedan enfrentadas.
+            </p>
+            <iframe class="container" src="prac3-4.html" title="Escena prac3-4"></iframe>
+
+            <h2>Capturas de pantalla</h2>
+            <p>
+                La memoria incluye las escenas embebidas directamente. No se anaden capturas
+                estaticas extra porque el resultado se puede comprobar en ejecucion.
+            </p>
+        </div>
+    </body>
+</html>
