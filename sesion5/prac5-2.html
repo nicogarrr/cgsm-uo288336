@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGSM - Practica 5.2</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        #overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            padding: 24px;
+            text-align: center;
+            background:
+                radial-gradient(circle at top, rgba(15, 118, 110, 0.28), rgba(2, 6, 23, 0.96)),
+                #020617;
+            z-index: 1000;
+        }
+
+        #overlay h1 {
+            margin: 0;
+        }
+
+        #overlay p {
+            max-width: 640px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        #startButton,
+        #toggleButton {
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #082f49;
+            background: #67e8f9;
+        }
+
+        #hud {
+            position: fixed;
+            left: 16px;
+            bottom: 16px;
+            max-width: 420px;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 16px;
+            z-index: 50;
+            line-height: 1.5;
+        }
+
+        #hud p {
+            margin: 0 0 10px;
+        }
+
+        #status {
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Practica 5.2 - Textura de video con DASH</h1>
+        <p>
+            Pulsa el boton para inicializar la escena. El plano rotara usando como textura
+            el video servido por el manifiesto <span class="code">sintel_final.mpd</span>.
+        </p>
+        <button id="startButton" type="button">Iniciar escena</button>
+    </div>
+
+    <div id="hud" hidden>
+        <p id="status">Esperando inicializacion del manifiesto DASH.</p>
+        <button id="toggleButton" type="button">Pausar video</button>
+    </div>
+
+    <video id="video" style="display:none" muted playsinline crossorigin="anonymous"></video>
+
+    <script defer src="vendor/dash.all.min.js"></script>
+    <script type="module" src="dist/prac5-2.js"></script>
+</body>
+</html>

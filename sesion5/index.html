@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Informe de practicas de CGSM - Sesion 5</title>
+        <link rel="stylesheet" type="text/css" href="report.css">
+    </head>
+    <body>
+        <div id="head">
+            <table id="general">
+                <tr>
+                    <th class="header">Nombre:</th>
+                    <td>Nicolas Iglesias Garcia</td>
+                </tr>
+                <tr>
+                    <th>UO:</th>
+                    <td>UO288336</td>
+                </tr>
+                <tr>
+                    <th>Practica:</th>
+                    <td>5 - Distribucion de medios continuos</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="content">
+            <h1>Memoria</h1>
+
+            <h2>Resumen de tareas realizadas y resultados</h2>
+            <p>
+                En esta sesion se preparo el proyecto para consumir contenido MPEG-DASH
+                desde una maquina virtual servida por HTTP con CORS y, una vez verificado
+                su funcionamiento, se integraron copias locales de los manifiestos y
+                segmentos generados dentro del propio proyecto. Se dejaron listas dos
+                escenas web: una reproduccion DASH convencional y una segunda escena donde
+                la textura de video de la practica 3 pasa a alimentarse desde un manifiesto
+                <span class="code">.mpd</span>. La memoria recoge ademas las respuestas
+                concisas pedidas en el guion para los dos manifiestos proporcionados y los
+                resultados obtenidos en el ejercicio de Sintel, junto con capturas de
+                funcionamiento por si el entorno de correccion no reproduce el MPD.
+            </p>
+            <ul>
+                <li><span class="code">prac5-1</span>: reproductor DASH basico que integra <span class="code">dash.js</span> en una pagina con un elemento <span class="code">video</span> de identificador <span class="code">player</span>.</li>
+                <li><span class="code">prac5-2</span>: adaptacion de la practica de textura de video para usar un elemento <span class="code">video</span> controlado por <span class="code">dash.js</span> y alimentado por <span class="code">media/sintel/sintel_final.mpd</span>.</li>
+                <li><span class="code">index.html</span>: memoria entregable con iframes, resumen de resultados y respuestas del guion.</li>
+            </ul>
+
+            <h2>Dificultades surgidas y solucion</h2>
+            <ul>
+                <li>El reproductor de referencia y las paginas propias necesitan CORS si el manifiesto se sirve desde otra maquina o puerto. Se resolvio pensando la practica para usar un servidor HTTP con <span class="code">--cors</span>.</li>
+                <li>La maquina virtual usa al menos dos redirecciones de puertos con funciones distintas: <span class="code">localhost:60022 -&gt; 22</span> para la conexion SSH y <span class="code">localhost:60080 -&gt; 8080</span> para acceder al servidor web que publica los manifiestos y segmentos DASH.</li>
+                <li>Los manifiestos creados a partir de un MP4 multiplexado pueden fallar en algunos navegadores. La solucion habitual es separar audio y video y, si hace falta, recodificar el video a H.264 baseline antes de regenerar el <span class="code">.mpd</span>.</li>
+                <li>Los navegadores limitan el autoplay. Por eso las dos escenas arrancan tras una interaccion explicita del usuario.</li>
+            </ul>
+
+            <h2>Respuestas concisas al guion</h2>
+            <p>
+                Para cada uno de los dos manifiestos proporcionados se responden a
+                continuacion las tres cuestiones planteadas en el guion: numero de
+                codificaciones de audio, numero de codificaciones de video y numero de
+                resoluciones de video disponibles.
+            </p>
+
+            <div class="analysis-grid">
+                <section class="manifest-card">
+                    <h3>Manifiesto 1: MultiResMPEG2.mpd</h3>
+                    <ol class="answer-list">
+                        <li><strong>Codificaciones de audio:</strong> El cliente puede utilizar 1 codificacion de audio distinta para adaptarse a cambios de red.</li>
+                        <li><strong>Codificaciones de video:</strong> El cliente puede utilizar 3 codificaciones de video distintas.</li>
+                        <li><strong>Resoluciones de video:</strong> El cliente puede usar 3 resoluciones distintas: 512x288, 768x432 y 1280x720.</li>
+                    </ol>
+                </section>
+
+                <section class="manifest-card">
+                    <h3>Manifiesto 2: SNE_DASH_SD_CASE1A_REVISED.mpd</h3>
+                    <ol class="answer-list">
+                        <li><strong>Codificaciones de audio:</strong> El cliente puede utilizar 1 codificacion de audio distinta para adaptarse a cambios de red.</li>
+                        <li><strong>Codificaciones de video:</strong> El cliente puede utilizar 4 codificaciones de video distintas.</li>
+                        <li><strong>Resoluciones de video:</strong> El cliente puede usar 1 unica resolucion: 854x480.</li>
+                    </ol>
+                </section>
+            </div>
+
+            <h2>Resultados del apartado 3</h2>
+            <ul>
+                <li>La conexion de administracion de la VM se realiza por SSH usando <span class="code">localhost:60022</span> en el anfitrion, redirigido al puerto <span class="code">22</span> del invitado.</li>
+                <li>Para consumir los manifiestos DASH desde el navegador es necesaria una segunda regla de reenvio para HTTP, normalmente <span class="code">localhost:60080</span> en el anfitrion hacia el puerto <span class="code">8080</span> del invitado donde se ejecuta <span class="code">http-server --cors</span>.</li>
+                <li>El manifiesto <span class="code">counter.mpd</span> generado con <span class="code">MP4Box -dash 5000 -profile onDemand</span> expone 1 pista de audio y 2 representaciones de video, con resoluciones <span class="code">320x180</span> y <span class="code">640x360</span>.</li>
+                <li>Con condiciones de red degradadas mediante <span class="code">tc netem</span>, el cliente DASH reduce automaticamente el bitrate si <span class="code">Auto Switch</span> esta activo.</li>
+                <li>Al restaurar la red, el reproductor vuelve progresivamente a la mejor calidad disponible segun buffer y ancho de banda.</li>
+                <li>En el ejercicio de Sintel, el manifiesto <span class="code">sintel_mux_480.mpd</span> fallo por usar audio y video multiplexados, <span class="code">sintel_split_480.mpd</span> cargo pero la imagen aparecia en negro y la solucion correcta fue recodificar el video a H.264 baseline antes de regenerar el MPD.</li>
+                <li>El manifiesto final <span class="code">sintel_final.mpd</span> ofrece 1 representacion de audio y 3 de video con resoluciones <span class="code">854x480</span>, <span class="code">1280x720</span> y <span class="code">1920x1080</span>.</li>
+            </ul>
+
+            <h2>Respuestas del ejercicio Sintel</h2>
+            <div class="analysis-grid">
+                <section class="manifest-card">
+                    <h3>Aproximacion 1: MP4 multiplexado</h3>
+                    <p>
+                        Se genero <span class="code">sintel_mux_480.mpd</span> directamente a partir del
+                        fichero original de 480p. El cliente de referencia no pudo reproducirlo y
+                        mostro el mensaje de error indicando que las representaciones multiplexadas
+                        no son compatibles con las guias DASH-AVC/264.
+                    </p>
+                </section>
+
+                <section class="manifest-card">
+                    <h3>Aproximacion 2: Audio y video separados</h3>
+                    <p>
+                        Tras extraer las pistas a <span class="code">sintel_audio_480.mp4</span> y
+                        <span class="code">sintel_trailer-480p_dashinit.mp4</span>, el manifiesto
+                        <span class="code">sintel_split_480.mpd</span> llego a cargar, pero en la prueba
+                        realizada la reproduccion aparecia con audio y pantalla negra.
+                    </p>
+                </section>
+
+                <section class="manifest-card">
+                    <h3>Aproximacion 3: Video recodificado</h3>
+                    <p>
+                        Recodificando el video con <span class="code">ffmpeg</span> a perfil
+                        <span class="code">baseline</span> se genero
+                        <span class="code">sintel_recoded_480_v2.mpd</span>, que ya se reprodujo
+                        correctamente en el cliente de referencia.
+                    </p>
+                </section>
+
+                <section class="manifest-card">
+                    <h3>Manifiesto final</h3>
+                    <p>
+                        Finalmente se creo <span class="code">sintel_final.mpd</span> con una unica
+                        pista de audio y tres calidades de video. Este es el manifiesto utilizado
+                        por defecto en <span class="code">prac5-2</span>.
+                    </p>
+                    <ol class="answer-list">
+                        <li><strong>Codificaciones de audio:</strong> 1.</li>
+                        <li><strong>Codificaciones de video:</strong> 3.</li>
+                        <li><strong>Resoluciones de video:</strong> 854x480, 1280x720 y 1920x1080.</li>
+                    </ol>
+                </section>
+            </div>
+
+            <h2>Dash.js</h2>
+            <ul>
+                <li>Se descargo e integro localmente la biblioteca <span class="code">dash.all.min.js</span> en la carpeta <span class="code">vendor</span>.</li>
+                <li><span class="code">prac5-1.html</span> incluye un elemento <span class="code">video</span> con identificador <span class="code">player</span> y crea el reproductor con <span class="code">dashjs.MediaPlayer().create()</span>, reproduciendo directamente <span class="code">sintel_final.mpd</span>.</li>
+                <li><span class="code">prac5-2.html</span> parte de la idea de <span class="code">prac3-2.html</span> y reemplaza la fuente MP4 por un manifiesto DASH que alimenta la textura del plano.</li>
+                <li>Se verifico el correcto funcionamiento del manifiesto final <span class="code">sintel_final.mpd</span> tanto en el reproductor normal como en la escena con textura de video.</li>
+            </ul>
+
+            <h2>Pasos del ejercicio 3.4</h2>
+            <div class="panel">
+                <p>
+                    Si se desea repetir manualmente el ejercicio de Sintel sobre la maquina
+                    virtual, estos son los pasos que se siguieron para obtener el manifiesto
+                    final:
+                </p>
+                <ol class="answer-list">
+                    <li><strong>Paso 1:</strong> descargar los tres MP4 del trailer: <span class="code">sintel_trailer-480p.mp4</span>, <span class="code">sintel_trailer-720p.mp4</span> y <span class="code">sintel_trailer-1080p.mp4</span>.</li>
+                    <li><strong>Paso 2:</strong> generar <span class="code">sintel_mux_480.mpd</span> directamente desde el 480p y comprobar que el reproductor de referencia rechaza la representacion multiplexada.</li>
+                    <li><strong>Paso 3:</strong> separar audio y video del 480p con <span class="code">ffmpeg</span> y crear <span class="code">sintel_split_480.mpd</span>.</li>
+                    <li><strong>Paso 4:</strong> recodificar el video del 480p a H.264 baseline con un comando equivalente a <span class="code">ffmpeg -i sintel_trailer-480p.mp4 -map 0:v:0 -an -c:v libx264 -profile:v baseline -pix_fmt yuv420p -r 24 -g 24 sintel_video_480_baseline.mp4</span>.</li>
+                    <li><strong>Paso 5:</strong> reutilizar una unica pista de audio y generar <span class="code">sintel_recoded_480_v2.mpd</span>, comprobando que ya se reproduce correctamente.</li>
+                    <li><strong>Paso 6:</strong> recodificar del mismo modo los videos de 720p y 1080p y crear el manifiesto final con <span class="code">MP4Box -dash 5000 -profile onDemand -out sintel_final.mpd sintel_audio.mp4 sintel_video_480_baseline.mp4 sintel_video_720_baseline.mp4 sintel_video_1080_baseline.mp4</span>.</li>
+                </ol>
+                <p>
+                    La entrega ya incluye el resultado final de este proceso en
+                    <span class="code">media/sintel/sintel_final.mpd</span> y en sus ficheros
+                    <span class="code">_dashinit.mp4</span>, por lo que no es necesario rehacer
+                    el manifiesto para corregir la practica.
+                </p>
+            </div>
+
+            <h2>Escena 5-1: Reproductor DASH</h2>
+            <p>
+                Esta pagina carga el manifiesto <span class="code">sintel_final.mpd</span> en un
+                elemento <span class="code">video</span> normal usando la biblioteca
+                <span class="code">dash.js</span>.
+            </p>
+            <iframe class="container" src="prac5-1.html" title="Escena prac5-1"></iframe>
+
+            <h2>Escena 5-2: Textura de video con DASH</h2>
+            <p>
+                La segunda escena reutiliza la idea de la practica 3.2: un plano que usa la imagen
+                del video como textura dinamica, pero esta vez el elemento de video se alimenta
+                desde el manifiesto final de Sintel servido desde el propio proyecto.
+            </p>
+            <iframe class="container" src="prac5-2.html" title="Escena prac5-2"></iframe>
+
+            <h2>Capturas de pantalla</h2>
+            <div class="analysis-grid">
+                <section class="manifest-card">
+                    <h3>Captura de prac5-1</h3>
+                    <img class="shot" src="media/sintel/prac1.png" alt="Captura de la practica 5.1 funcionando">
+                </section>
+
+                <section class="manifest-card">
+                    <h3>Captura de prac5-2</h3>
+                    <img class="shot" src="media/prac2.png" alt="Captura de la practica 5.2 funcionando">
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

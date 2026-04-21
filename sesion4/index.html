@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Informe de practicas de CGSM - Sesion 4</title>
+        <link rel="stylesheet" type="text/css" href="report.css">
+    </head>
+    <body>
+        <div id="head">
+            <table id="general">
+                <tr>
+                    <th class="header">Nombre:</th>
+                    <td>Nicolas Iglesias Garcia</td>
+                </tr>
+                <tr>
+                    <th>UO:</th>
+                    <td>UO288336</td>
+                </tr>
+                <tr>
+                    <th>Practica:</th>
+                    <td>4 - WebGL avanzado (II)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="content">
+            <h1>Memoria</h1>
+
+            <h2>Resumen de tareas realizadas y resultados</h2>
+            <p>
+                En esta sesion se amplio la escena en primera persona de la practica anterior para
+                incorporar sonido posicional, seleccion de objetos con
+                <span class="code">Raycaster</span>, interaccion mediante teclado y deteccion de
+                colisiones. El resultado final es una escena navegable donde dos cubos emiten sonido
+                3D, se pueden seleccionar con el raton, cambian de estado visual al activar o
+                silenciar el audio y ya no pueden ser atravesados por la camara. Como ampliacion
+                adicional se anadio una quinta escena con una pantalla de video controlada por los
+                cubos.
+            </p>
+            <ul>
+                <li><span class="code">prac4-1</span>: sonido 3D mediante <span class="code">AudioListener</span> y <span class="code">PositionalAudio</span> asociado a cada cubo.</li>
+                <li><span class="code">prac4-2</span>: seleccion de objetos usando <span class="code">Raycaster</span>, nombres de malla y realimentacion visual.</li>
+                <li><span class="code">prac4-3</span>: interaccion con la barra espaciadora para activar o pausar el sonido y cambiar la textura de una cara de cada cubo.</li>
+                <li><span class="code">prac4-4</span>: deteccion de colisiones en ocho direcciones para impedir que la camara atraviese los cubos.</li>
+                <li><span class="code">prac4-5</span>: ampliacion opcional con una pantalla 2D que reproduce un video y es controlada por los dos cubos.</li>
+            </ul>
+
+            <h2>Dificultades surgidas y solucion</h2>
+            <ul>
+                <li>Los navegadores no permiten iniciar audio automaticamente. Se resolvio con un overlay inicial y un boton que fuerza la primera interaccion del usuario antes de reanudar el contexto de audio.</li>
+                <li>La seleccion con <span class="code">Raycaster</span> necesitaba distinguir claramente cada objeto. Se asignaron nombres a las mallas y se filtro el raycasting a las cajas seleccionables.</li>
+                <li>La practica 4.3 exige cambiar solo una cara de cada cubo. Se precargaron las dos texturas del boton y se sustituyo unicamente el material de la cara interactiva, manteniendo el resto de caras con las texturas regulares.</li>
+                <li>La solucion simple de colisiones con <span class="code">FirstPersonControls</span> no es totalmente robusta. Se adopto el enfoque del guion: detectar obstaculos por rayos y deshacer el ultimo movimiento con <span class="code">controls.update( -delta )</span>.</li>
+                <li>Para la ampliacion <span class="code">prac4-5</span> fue necesario integrar una textura de video en una pantalla dentro de la escena y coordinarla con la seleccion de cajas sin perder las colisiones ni la navegacion.</li>
+            </ul>
+
+            <h2>Respuestas concisas al guion</h2>
+            <ul>
+                <li>El sonido posicional varia segun la distancia entre la camara y cada cubo porque el <span class="code">AudioListener</span> esta unido a la camara y cada caja usa un objeto <span class="code">PositionalAudio</span>.</li>
+                <li>La seleccion de objetos se obtiene lanzando un rayo desde la posicion actual del raton hacia la escena con <span class="code">rayCaster.setFromCamera( mouse, camera )</span>.</li>
+                <li>La interaccion con la barra espaciadora alterna correctamente entre <span class="code">sound.play()</span> y <span class="code">sound.pause()</span> para cada cubo seleccionado.</li>
+                <li>La realimentacion visual en <span class="code">prac4-3</span> y <span class="code">prac4-4</span> solo afecta a una cara de la caja, que cambia entre <span class="code">textura_desactivado.png</span> y <span class="code">textura_sonido.png</span>.</li>
+                <li>La deteccion de colisiones se realiza trazando rayos en ocho direcciones posibles de movimiento sobre el plano X-Z y comprobando si existe un obstaculo a una distancia menor o igual que 20 unidades.</li>
+                <li>En <span class="code">prac4-5</span> la caja izquierda inicia el video de la pantalla y la derecha lo pausa, reutilizando el clip de la sesion 3 como textura dinamica.</li>
+            </ul>
+
+            <h2>Escena 4-1: Sonido 3D</h2>
+            <p>
+                Se parte de la escena first-person de la sesion anterior y se anaden dos fuentes de
+                sonido posicional, una en cada cubo. Al desplazarse por la escena se aprecia la
+                variacion de volumen y posicion espacial del sonido.
+            </p>
+            <iframe class="container" src="prac4-1.html" title="Escena prac4-1"></iframe>
+
+            <h2>Escena 4-2: Seleccion de objetos</h2>
+            <p>
+                Las cajas se pueden seleccionar apuntando con el raton. El objeto intersecado se
+                actualiza continuamente mediante <span class="code">Raycaster</span>, se resalta en la escena y
+                se muestra tanto por pantalla como por consola.
+            </p>
+            <iframe class="container" src="prac4-2.html" title="Escena prac4-2"></iframe>
+
+            <h2>Escena 4-3: Interaccion con objetos</h2>
+            <p>
+                Al pulsar la barra espaciadora sobre una caja seleccionada se activa o pausa su
+                sonido y se cambia la textura de la cara del boton entre estado encendido y apagado,
+                manteniendo el resto de caras sin cambios.
+            </p>
+            <iframe class="container" src="prac4-3.html" title="Escena prac4-3"></iframe>
+
+            <h2>Escena 4-4: Deteccion de colisiones</h2>
+            <p>
+                La escena final incorpora colisiones para impedir que la camara atraviese las cajas.
+                Se comprueban ocho direcciones posibles de movimiento y, si se detecta un obstaculo
+                proximo, se deshace el ultimo avance.
+            </p>
+            <iframe class="container" src="prac4-4.html" title="Escena prac4-4"></iframe>
+
+            <h2>Escena 4-5: Pantalla de video</h2>
+            <p>
+                Como ampliacion, se anade una pantalla 2D situada al fondo de la escena que utiliza
+                el video <span class="code">sintel.mp4</span> como textura. La caja izquierda sirve para
+                iniciar la reproduccion y la derecha para pausarla.
+            </p>
+            <iframe class="container" src="prac4-5.html" title="Escena prac4-5"></iframe>
+
+            <h2>Capturas de pantalla</h2>
+            <p>
+                No se incluyen capturas estaticas adicionales porque la memoria ya integra las cinco
+                escenas funcionales dentro de sus correspondientes <span class="code">iframe</span>.
+            </p>
+        </div>
+    </body>
+</html>

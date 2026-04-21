@@ -1,0 +1,24 @@
+
+> sesion3@1.0.0 start
+> webpack serve
+
+asset [1m[33mprac3-3.js[39m[22m [1m[33m2.51 MiB[39m[22m [1m[32m[emitted][39m[22m [1m[33m[big][39m[22m (name: prac3-3)
+asset [1m[33mprac3-1.js[39m[22m [1m[33m2.48 MiB[39m[22m [1m[32m[emitted][39m[22m [1m[33m[big][39m[22m (name: prac3-1)
+asset [1m[33mprac3-2.js[39m[22m [1m[33m2.47 MiB[39m[22m [1m[32m[emitted][39m[22m [1m[33m[big][39m[22m (name: prac3-2)
+asset [1m[33mprac3-4.js[39m[22m [1m[33m2.44 MiB[39m[22m [1m[32m[emitted][39m[22m [1m[33m[big][39m[22m (name: prac3-4)
+runtime modules 112 KiB 48 modules
+cacheable modules 2.17 MiB
+  modules by path [1m./node_modules/[39m[22m 2.16 MiB
+    modules by path [1m./node_modules/webpack-dev-server/client/[39m[22m 90.2 KiB 8 modules
+    modules by path [1m./node_modules/three/[39m[22m 2.05 MiB 7 modules
+    modules by path [1m./node_modules/webpack/hot/*.js[39m[22m 5.56 KiB
+      [1m./node_modules/webpack/hot/dev-server.js[39m[22m 2.33 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+      + 3 modules
+    [1m./node_modules/events/events.js[39m[22m 14.5 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    [1m./node_modules/ansi-html-community/index.js[39m[22m 4.16 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+  modules by path [1m./src/*.js[39m[22m 12.5 KiB
+    [1m./src/prac3-1.js[39m[22m 2.53 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    [1m./src/prac3-2.js[39m[22m 3.61 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    [1m./src/prac3-3.js[39m[22m 3.03 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    [1m./src/prac3-4.js[39m[22m 3.32 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+webpack 5.105.4 compiled [1m[32msuccessfully[39m[22m in 5565 ms
