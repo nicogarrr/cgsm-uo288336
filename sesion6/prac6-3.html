@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGSM - Practica 6.3</title>
+    <link rel="stylesheet" type="text/css" href="prac6-3.css">
+</head>
+<body>
+    <div id="container">
+
+        <!-- The element where local video is played -->
+        <video id="localVideo" autoplay="true" muted="true" playsinline></video>
+
+        <!-- The element where remote video is played -->
+        <video id="remoteVideo" autoplay="true" playsinline></video>
+
+        <div>
+            <!-- Buttons for call control -->
+            <button id="startButton" disabled="true">Iniciar</button>
+            <button id="callButton" disabled="true">Llamar</button>
+            <button id="hangupButton" disabled="true">Colgar</button>
+        </div>
+
+    </div>
+
+    <script defer src="dist/prac6-3.js"></script>
+</body>
+</html>
