@@ -1,164 +1,93 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Informe de practicas de CGSM - Sesion 6</title>
+        <title>Informe de prácticas de CGSM (2015-2016)</title>
         <link rel="stylesheet" type="text/css" href="report.css">
     </head>
     <body>
+        <!-- Información general -->
         <div id="head">
             <table id="general">
                 <tr>
                     <th class="header">Nombre:</th>
-                    <td>Nicolas Iglesias Garcia</td>
+                    <td>Nicolás Iglesias García</td>
                 </tr>
                 <tr>
                     <th>UO:</th>
                     <td>UO288336</td>
                 </tr>
                 <tr>
-                    <th>Practica:</th>
+                    <th>Práctica:</th>
                     <td>6 - Comunicaciones en tiempo real con WebRTC</td>
                 </tr>
             </table>
         </div>
-
         <div id="content">
             <h1>Memoria</h1>
 
-            <h2>Resumen de tareas realizadas y resultados</h2>
+            <h2>Descripción de la práctica</h2>
             <p>
-                En esta sesion se desarrollaron cuatro paginas para trabajar con WebRTC.
-                Primero se capturo video de la camara mediante <span class="code">getUserMedia()</span>,
-                despues se anadio la captura de fotogramas a un <span class="code">canvas</span>
-                oculto, a continuacion se implemento una llamada local con dos objetos
-                <span class="code">RTCPeerConnection</span> y, finalmente, se integro el flujo de
-                la webcam en una escena WebGL/Three.js como textura dinamica.
+                En esta sesión se trabajó con WebRTC para acceder a flujos multimedia,
+                capturar fotogramas, simular una llamada entre dos pares en local y utilizar el
+                vídeo de la webcam como textura dentro de una escena WebGL.
             </p>
+
+            <h2>Resumen de tareas y resultados</h2>
             <ul>
-                <li><span class="code">prac6-1</span>: visualizacion basica del flujo de webcam en un elemento <span class="code">video</span>.</li>
-                <li><span class="code">prac6-2</span>: captura de imagen desde el video, copia a <span class="code">canvas</span> y descarga como PNG.</li>
-                <li><span class="code">prac6-3</span>: llamada WebRTC local con pares local/remoto, intercambio offer/answer e intercambio de candidatos ICE.</li>
-                <li><span class="code">prac6-4</span>: textura WebGL obtenida directamente de la webcam mediante WebRTC.</li>
+                <li><span class="code">prac6-1</span>: visualización básica del flujo de la webcam en un elemento <span class="code">video</span>.</li>
+                <li><span class="code">prac6-2</span>: captura de imagen desde el vídeo, copia a un <span class="code">canvas</span> oculto y descarga como PNG.</li>
+                <li><span class="code">prac6-3</span>: simulación de llamada WebRTC local con dos objetos <span class="code">RTCPeerConnection</span>, intercambio de oferta/respuesta y candidatos ICE.</li>
+                <li><span class="code">prac6-4</span>: integración de WebRTC con WebGL usando el flujo de la webcam como textura dinámica en Three.js.</li>
             </ul>
 
-            <h2>Dificultades surgidas y solucion</h2>
+            <h2>Ejercicio 1</h2>
+            <p>
+                En <span class="code">prac6-1</span> se solicita acceso a la webcam mediante la API
+                <span class="code">navigator.mediaDevices.getUserMedia()</span>. Una vez obtenido,
+                se asigna el <span class="code">MediaStream</span> (que nos proporciona flujos multimedia sincronizados, de cámara y micrófono) 
+                directamente al elemento de vídeo HTML a través de su propiedad <span class="code">srcObject</span>.
+            </p>
+            <iframe class="container" src="prac6-1.html" title="Escena prac6-1" allow="camera; microphone; autoplay"></iframe>
+
+            <h2>Ejercicio 2</h2>
+            <p>
+                En <span class="code">prac6-2</span> se añade un <span class="code">canvas</span>
+                oculto y un enlace de captura simulando el comportamiento de hacer una foto. Al pulsar dicho botón, se extrae el fotograma actual reproduciéndose en el vídeo, 
+                se copia al canvas y, gracias al método <span class="code">toDataURL()</span>, se convierte la
+                imagen capturada en una cadena de datos descargable como archivo PNG.
+            </p>
+            <iframe class="container" src="prac6-2.html" title="Escena prac6-2" allow="camera; microphone; autoplay"></iframe>
+
+            <h2>Ejercicio 3</h2>
+            <p>
+                En <span class="code">prac6-3</span> se crean dos instancias de
+                <span class="code">RTCPeerConnection</span> dentro de la misma página para simular
+                una llamada. A diferencia de una aplicación real (donde la oferta, la respuesta
+                y los candidatos ICE se intercambiaran a o largo de una red externa mediante un canal de señalización), en esta
+                práctica se pasan directamente a nivel de código fuente en local porque ambos pares están contenidos en la misma página.
+            </p>
+            <iframe class="container" src="prac6-3.html" title="Escena prac6-3" allow="camera; microphone; autoplay"></iframe>
+
+            <h2>Ejercicio 4</h2>
+            <p>
+                En <span class="code">prac6-4</span> se adaptó la escena de textura de vídeo de la
+                sesión 3 para que el elemento <span class="code">video</span> intercepte el flujo de la
+                webcam. De esta forma, WebRTC y WebGL se integran perfectamente: cada frame se copia a un canvas intermedio, el cual sirve de textura totalmente actualizable para un cubo 3D creado con Three.js.
+            </p>
+            <iframe class="container" src="prac6-4.html" title="Escena prac6-4" allow="camera; microphone; autoplay"></iframe>
+
+            <h2>Dificultades encontradas</h2>
             <ul>
-                <li>El acceso a camara requiere permiso del navegador y un origen seguro. Se trabajo desde <span class="code">localhost:8080</span>, que los navegadores tratan como origen valido para <span class="code">getUserMedia()</span>.</li>
-                <li>La camara puede quedar ocupada si otra pagina de la sesion sigue abierta. Se resolvio cerrando las pestanas anteriores antes de probar una nueva escena.</li>
-                <li>La importacion de <span class="code">webrtc-adapter</span> necesita compilar el codigo con Webpack. Se anadio la configuracion de entradas para cada practica y se genero la carpeta <span class="code">dist</span>.</li>
-                <li>La integracion con WebGL necesitaba reutilizar Three.js desde la sesion 3. Se anadio la dependencia <span class="code">three</span> y se adapto la escena de textura de video para leer frames desde la webcam.</li>
-                <li>El autoplay de video esta limitado por el navegador. Las escenas que lo necesitan arrancan tras una accion explicita del usuario.</li>
+                <li>El acceso a la cámara mediante JavaScript moderno requiere permiso expreso del usuario y originarse desde un entorno seguro o válido; por ello se usó <span class="code">localhost:8080</span> en vez del sistema de archivos <span class="code">file://</span>.</li>
+                <li>La cámara puede quedarse ocupada en modo lectura si otra página de la sesión sigue abierta; fue necesario resolverlo cerrando las pestañas anteriores antes de lanzar otra escena distinta.</li>
+                <li>La importación del módulo <span class="code">webrtc-adapter</span> necesitaba del empaquetado con Webpack, por lo que se configuraron los puntos de entrada para las cuatro prácticas.</li>
             </ul>
-
-            <h2>Respuestas concisas al guion</h2>
-            <ul>
-                <li><strong>MediaStream:</strong> permite obtener flujos multimedia sincronizados, como camara y microfono, a traves de <span class="code">navigator.mediaDevices.getUserMedia()</span>.</li>
-                <li><strong>RTCPeerConnection:</strong> representa un extremo de una conexion WebRTC. En la practica 6.3 se crean dos extremos dentro de la misma pagina para simular llamante y receptor.</li>
-                <li><strong>RTCDataChannel:</strong> permite enviar datos de baja latencia distintos de audio y video, por ejemplo para juegos o sincronizacion en tiempo real.</li>
-                <li><strong>ICE:</strong> WebRTC usa candidatos ICE para descubrir rutas de comunicacion entre pares, incluso con NAT o firewalls.</li>
-                <li><strong>Senalizacion:</strong> en una aplicacion real la oferta, la respuesta y los candidatos ICE se intercambian mediante un canal externo; aqui se pasan directamente entre objetos porque ambos pares viven en la misma pagina.</li>
-                <li><strong>WebRTC y WebGL:</strong> un flujo capturado de la webcam puede copiarse frame a frame a un <span class="code">canvas</span> y usarse como textura actualizable en Three.js.</li>
-            </ul>
-
-            <h2>Correspondencia con el guion</h2>
-            <div class="analysis-grid">
-                <section class="manifest-card">
-                    <h3>Apartado 2</h3>
-                    <p>
-                        <span class="code">prac6-1.html</span> contiene el
-                        <span class="code">div#container</span> y el elemento
-                        <span class="code">video</span> con <span class="code">autoplay</span>.
-                        Su script importa <span class="code">webrtc-adapter</span>, define
-                        <span class="code">constraints</span> con audio desactivado y asigna el
-                        flujo obtenido a <span class="code">video.srcObject</span>.
-                    </p>
-                    <p>
-                        <span class="code">prac6-2.html</span> es la ampliacion con
-                        <span class="code">canvas#photo-canvas</span> oculto y enlace
-                        <span class="code">Capturar</span>, que genera una imagen PNG mediante
-                        <span class="code">canvas.toDataURL()</span>.
-                    </p>
-                </section>
-
-                <section class="manifest-card">
-                    <h3>Apartado 3</h3>
-                    <p>
-                        <span class="code">prac6-3.html</span> usa la hoja de estilos indicada
-                        para mostrar los videos local y remoto. El script crea
-                        <span class="code">localPeerConnection</span> y
-                        <span class="code">remotePeerConnection</span>, intercambia offer/answer,
-                        reenvia los candidatos ICE y muestra el flujo remoto en
-                        <span class="code">remoteVideo</span>.
-                    </p>
-                </section>
-
-                <section class="manifest-card">
-                    <h3>Apartado 4</h3>
-                    <p>
-                        <span class="code">prac6-4.html</span> parte de la practica 3.2 de
-                        textura de video y sustituye el archivo MP4 por un flujo capturado de
-                        webcam. Cada frame se copia a un canvas intermedio y actualiza la
-                        textura del plano WebGL.
-                    </p>
-                </section>
-            </div>
-
-            <h2>Escena 6-1: WebRTC basico</h2>
-            <p>
-                La primera escena solicita acceso a la webcam, obtiene un
-                <span class="code">MediaStream</span> y lo asigna al elemento
-                <span class="code">video</span> mediante <span class="code">srcObject</span>.
-            </p>
-            <iframe class="container compact-frame" src="prac6-1.html" title="Escena prac6-1" allow="camera; microphone; autoplay" loading="lazy"></iframe>
-
-            <h2>Escena 6-2: Captura de imagen</h2>
-            <p>
-                La segunda escena mantiene el video local y anade un enlace de captura.
-                Al pulsarlo se copia el fotograma actual al <span class="code">canvas</span>
-                oculto y se genera un <span class="code">dataURL</span> en formato PNG para descargarlo.
-            </p>
-            <iframe class="container compact-frame" src="prac6-2.html" title="Escena prac6-2" allow="camera; microphone; autoplay" loading="lazy"></iframe>
-
-            <h2>Escena 6-3: Llamada local WebRTC</h2>
-            <p>
-                Esta pagina crea un par local y otro remoto con
-                <span class="code">RTCPeerConnection</span>. El boton
-                <span class="code">Iniciar</span> captura la webcam,
-                <span class="code">Llamar</span> negocia la conexion y
-                <span class="code">Colgar</span> cierra ambos extremos.
-            </p>
-            <iframe class="container compact-frame" src="prac6-3.html" title="Escena prac6-3" allow="camera; microphone; autoplay" loading="lazy"></iframe>
-
-            <h2>Escena 6-4: WebRTC con WebGL</h2>
-            <p>
-                La ultima escena parte de la practica 3.2 de textura de video. La diferencia
-                es que el elemento <span class="code">video</span> no carga un archivo MP4, sino
-                que recibe el flujo de la webcam y sus frames se usan para actualizar la textura
-                de un plano en Three.js.
-            </p>
-            <iframe class="container" src="prac6-4.html" title="Escena prac6-4" allow="camera; microphone; autoplay" loading="lazy"></iframe>
 
             <h2>Capturas de pantalla</h2>
-            <div class="analysis-grid">
-                <section class="manifest-card">
-                    <h3>Captura de prac6-2</h3>
-                    <p>
-                        Imagen generada desde la webcam con la funcionalidad de captura y
-                        descarga de la practica 6.2.
-                    </p>
-                    <img class="shot" src="captura%20(1).png" alt="Captura generada desde la webcam">
-                </section>
-                <section class="manifest-card">
-                    <h3>Observacion</h3>
-                    <p>
-                        Las escenas principales se incluyen embebidas para poder comprobar el
-                        resultado en ejecucion. Al abrir la memoria, el navegador puede pedir
-                        permiso de camara en los iframes que usan WebRTC.
-                    </p>
-                </section>
-            </div>
+            <p>
+                En lugar de utilizar imágenes estáticas, se ha priorizado el uso de iframes para embeber las escenas interactivas directamente en la memoria.
+            </p>
         </div>
     </body>
 </html>
